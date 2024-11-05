@@ -1,7 +1,6 @@
 ---
 title: "grades-test-Blandine-Ledoux"
 author: "Blandine Ledoux"
-
 format: html
 ---
 # Introduction
@@ -108,5 +107,27 @@ bushido_grades %>%
   ggplot(aes(x = num_bushido_grades, y = n)) +
   geom_bar(stat = "identity") +
   labs(x = "Number of Grades", y = "Number of Students", title = "Distribution of Grades in Bushido and Samurai Code")
+```
+
+## Question 11
+
+```{r}
+bushido_grades %>%
+  ggplot(aes(x = factor(group), y = num_bushido_grades)) +
+  geom_boxplot() +
+  labs(x = "Group", y = "Number of Grades", title = "Number of Grades in Bushido and Samurai Code by Group")
+```
+
+# Grade analysis
+
+## Question 12
+
+```{r}
+average_grades <- grades %>%
+  group_by(id, group, course) %>%
+  summarize(avg_grade = round(mean(grade, na.rm = TRUE), 2), .groups = "drop")
+average_grades_wide <- average_grades %>%
+  pivot_wider(names_from = course, values_from = avg_grade)
+average_grades_wide %>% slice_head(n = 5) %>% knitr::kable()
 ```
 
