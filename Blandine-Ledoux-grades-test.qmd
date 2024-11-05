@@ -49,3 +49,15 @@ grades %>%
   labs(x = "Group", y = "Number of Students", title = "Number of Students per Group")
 ```
 
+## Question 6
+
+```{r}
+grades %>%
+  filter(course == "History of Feudal Japan") %>%
+  group_by(group) %>%
+  summarize(avg_grade = mean(grade, na.rm = TRUE)) %>%
+  ggplot(aes(x = factor(group), y = avg_grade)) +
+  geom_col() +
+  labs(x = "Group", y = "Average Grade", title = "Average Grades in History of Feudal Japan by Group")
+```
+
