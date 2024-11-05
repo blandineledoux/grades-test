@@ -25,6 +25,7 @@ grades <- read.csv("grades.csv")
 
 ## Question 3
 ```{r}
+library(knitr)
 unique_students <- grades %>% distinct(id)
 num_students <- nrow(unique_students)
 unique_students %>% slice_head(n = 5) %>% knitr::kable()
@@ -59,5 +60,33 @@ grades %>%
   ggplot(aes(x = factor(group), y = avg_grade)) +
   geom_col() +
   labs(x = "Group", y = "Average Grade", title = "Average Grades in History of Feudal Japan by Group")
+```
+
+## Question 7
+
+```{r}
+grades %>%
+  ggplot(aes(x = grade, fill = factor(semester))) +
+  geom_density(alpha = 0.5) +
+  facet_wrap(~ semester) +
+  labs(x = "Grade", y = "Density", fill = "Semester", title = "Distribution of Grades by Semester")
+```
+
+# Attendance analysis
+
+## Question 8
+
+```{r}
+grades_per_student <- grades %>%
+  group_by(id, group) %>%
+  summarize(
+    num_grades = n(),
+    min_grade = min(grade),
+    max_grade = max(grade),
+    avg_grade = mean(grade),
+    median_grade = median(grade),
+    .groups = "drop"
+  )
+grades_per_student %>% slice_head(n = 5) %>% knitr::kable()
 ```
 
