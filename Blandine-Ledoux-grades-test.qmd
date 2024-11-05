@@ -19,7 +19,7 @@ grades <- read.csv("grades.csv")
 ## Question 2
 
 ```{r}
-
+paste("The data set contains", nrow(grades), "grades.")
 ```
 
 ## Question 3
@@ -221,5 +221,24 @@ final_grades <- average_grades_wide %>%
 final_grades %>% slice_head(n = 5) %>% knitr::kable()
 ```
 
+## Question 19
 
+```{r}
+not_passing_high_grade <- final_grades %>%
+  filter(final_grade >= 10, pass == FALSE) %>%
+  count()
+not_passing_high_grade
+```
+
+## Question 20
+
+```{r}
+pass_rate <- passing_status %>%
+  group_by(group) %>%
+  summarize(pass_rate = mean(pass)) 
+pass_rate %>%
+  ggplot(aes(x = factor(group), y = pass_rate)) +
+  geom_bar(stat = "identity") +
+  labs(x = "Group", y = "Pass Rate", title = "Pass Rate per Group")
+```
 
