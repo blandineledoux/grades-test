@@ -11,6 +11,7 @@ format: html
 ```{r}
 library(dplyr)
 library(readr)
+library(tidyr)
 grades <- read.csv("grades.csv")
 ```
 
@@ -22,5 +23,11 @@ grades <- read.csv("grades.csv")
 
 ```
 
+## Question 3
+```{r}
+unique_students <- grades %>% distinct(id)
+num_students <- nrow(unique_students)
+unique_students %>% slice_head(n = 5) %>% knitr::kable()
+```
 
 
