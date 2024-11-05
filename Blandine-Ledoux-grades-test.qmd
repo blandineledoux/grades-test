@@ -1,6 +1,26 @@
 ---
 title: "grades-test-Blandine-Ledoux"
 author: "Blandine Ledoux"
+
 format: html
 ---
+# Introduction
+
+## Question 1
+
+```{r}
+library(dplyr)
+library(readr)
+grades <- read.csv("grades.csv")
+```
+
+# Simple analyses
+
+## Question 2
+
+```{r}
+
+```
+
+
 
