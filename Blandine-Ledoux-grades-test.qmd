@@ -159,6 +159,67 @@ correlation_results %>% knitr::kable()
 ## Question 15
 
 ```{r}
-
+highest_correlation_group <- correlation_results %>%
+  filter(abs(correlation) == max(abs(correlation), na.rm = TRUE)) %>%
+  pull(group)
+filtered_data <- average_grades_wide %>%
+  filter(group == highest_correlation_group)
+filtered_data %>%
+  ggplot(aes(x = `Kenjutsu and Swordsmanship`, y = `Tea Ceremony and Zen Meditation`)) +
+  geom_point(color = "purple") +
+  labs(
+    title = paste("Grades Comparison for Group", highest_correlation_group),
+    x = "Average Grade in Kenjutsu and Swordsmanship",
+    y = "Average Grade in Tea Ceremony and Zen Meditation"
+  ) +
+  theme_minimal()
 ```
+
+## Question 16
+
+```{r}
+final_grades <- average_grades_wide %>%
+  rowwise() %>%
+  mutate(final_grade = mean(c_across(starts_with("Archery") | starts_with("Bushido") |
+                                     starts_with("Calligraphy") | starts_with("History") |
+                                     starts_with("Kenjutsu") | starts_with("Ninjutsu") |
+                                     starts_with("Onmyodo") | starts_with("Shinto") |
+                                     starts_with("Strategy") | starts_with("Tea Ceremony")),
+                            na.rm = TRUE)) %>%
+  ungroup() %>%
+  select(id, group, final_grade) %>%
+  arrange(desc(final_grade))
+final_grades %>% slice_head(n = 5) %>% knitr::kable()
+```
+
+## Question 17
+
+```{r}
+final_grades %>%
+  ggplot(aes(x = factor(group), y = final_grade)) +
+  geom_boxplot() +
+  labs(x = "Group", y = "Final Grade", title = "Differences in Final Grades Between Groups")
+```
+
+## Question 18
+
+```{r}
+semester_1_courses <- average_grades_wide %>% select(matches("Archery|Bushido|Ninjutsu|Onmyodo|Tea Ceremony"))
+semester_2_courses <- average_grades_wide %>% select(matches("Calligraphy|History|Kenjutsu|Shinto|Strategy"))
+final_grades <- average_grades_wide %>%
+  rowwise() %>%
+  mutate(
+ final_grade = mean(c_across(everything()), na.rm = TRUE),
+  all_courses_above_5 = all(c_across(everything()) > 5, na.rm = TRUE),
+ semester_1_avg = mean(c_across(matches("Archery|Bushido|Ninjutsu|Onmyodo|Tea Ceremony")), na.rm = TRUE),
+    semester_2_avg = mean(c_across(matches("Calligraphy|History|Kenjutsu|Shinto|Strategy")), na.rm = TRUE),
+    semester_avg_above_or_equal_10 = (semester_1_avg >= 10 & semester_2_avg >= 10)
+  ) %>%
+  mutate(pass = all_courses_above_5 & semester_avg_above_or_equal_10) %>%
+  ungroup() %>%
+  select(id, group, final_grade, pass)
+final_grades %>% slice_head(n = 5) %>% knitr::kable()
+```
+
+
 
