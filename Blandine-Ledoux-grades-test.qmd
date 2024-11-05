@@ -1,8 +1,11 @@
 ---
 title: "grades-test-Blandine-Ledoux"
 author: "Blandine Ledoux"
-format: html
+format: 
+  html: default
+  pdf: default
 ---
+
 # Introduction
 
 ## Question 1
@@ -11,6 +14,7 @@ format: html
 library(dplyr)
 library(readr)
 library(tidyr)
+library(knitr)
 grades <- read.csv("grades.csv")
 ```
 
@@ -23,11 +27,12 @@ paste("The data set contains", nrow(grades), "grades.")
 ```
 
 ## Question 3
+
 ```{r}
-library(knitr)
-unique_students <- grades %>% distinct(id)
-num_students <- nrow(unique_students)
-unique_students %>% slice_head(n = 5) %>% knitr::kable()
+num_students <- grades %>% 
+  distinct(id) %>%
+  nrow() 
+paste("The data set contains", num_students, "students.")
 ```
 
 ## Question 4
@@ -241,4 +246,3 @@ pass_rate %>%
   geom_bar(stat = "identity") +
   labs(x = "Group", y = "Pass Rate", title = "Pass Rate per Group")
 ```
-
