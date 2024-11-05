@@ -30,4 +30,10 @@ num_students <- nrow(unique_students)
 unique_students %>% slice_head(n = 5) %>% knitr::kable()
 ```
 
+## Question 4
+
+```{r}
+students <- grades %>% distinct(id, group)
+students %>% slice_head(n = 5) %>% knitr::kable()
+```
 
