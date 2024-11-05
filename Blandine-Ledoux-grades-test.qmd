@@ -131,3 +131,34 @@ average_grades_wide <- average_grades %>%
 average_grades_wide %>% slice_head(n = 5) %>% knitr::kable()
 ```
 
+## Question 13
+
+```{r}
+average_grades_wide %>%
+  ggplot(aes(x = `Strategy and Tactics`, y = `Tea Ceremony and Zen Meditation`)) +
+  geom_point(color = "blue") +
+  labs(
+    title = "Average Grades: Strategy and Tactics vs Tea Ceremony and Zen Meditation",
+    x = "Average Grade in Strategy and Tactics",
+    y = "Average Grade in Tea Ceremony and Zen Meditation"
+  ) +
+  theme_minimal()
+```
+
+## Question 14
+
+```{r}
+correlation_results <- average_grades_wide %>%
+  group_by(group) %>%
+  summarize(
+    correlation = cor(`Tea Ceremony and Zen Meditation`, `Kenjutsu and Swordsmanship`, use = "complete.obs")
+  )
+correlation_results %>% knitr::kable()
+```
+
+## Question 15
+
+```{r}
+
+```
+
