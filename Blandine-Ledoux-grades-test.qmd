@@ -90,3 +90,23 @@ grades_per_student <- grades %>%
 grades_per_student %>% slice_head(n = 5) %>% knitr::kable()
 ```
 
+## Question 9
+
+```{r}
+bushido_grades <- grades %>%
+  filter(course == "Bushido and Samurai Code") %>%
+  group_by(id, group) %>%
+  summarize(num_bushido_grades = n(), .groups = "drop")
+bushido_grades %>% slice_head(n = 5) %>% knitr::kable()
+```
+
+## Question 10
+
+```{r}
+bushido_grades %>%
+  count(num_bushido_grades) %>%
+  ggplot(aes(x = num_bushido_grades, y = n)) +
+  geom_bar(stat = "identity") +
+  labs(x = "Number of Grades", y = "Number of Students", title = "Distribution of Grades in Bushido and Samurai Code")
+```
+
